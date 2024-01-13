@@ -13,10 +13,6 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
       - name: Checkout Fendermint
         uses: actions/checkout@v2
         with:
@@ -75,6 +71,10 @@ jobs:
           ROOT_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
         run: |
           npx hardhat --network local create-fund-accounts
+      - name: Checkout Test Repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
       - name: 'Run tests: web3.js SimpleCoin'
         if: always()
         env:
