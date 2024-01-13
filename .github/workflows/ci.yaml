@@ -13,6 +13,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Test Repository
+        uses: actions/checkout@v2
       - name: Checkout Fendermint
         uses: actions/checkout@v2
         with:
@@ -55,6 +57,8 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Checkout submodules
+        run: ls && pwd && git submodule sync && git submodule update
       - name: Run a testnode
         id: testnode
         run: |
@@ -71,10 +75,6 @@ jobs:
           ROOT_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
         run: |
           npx hardhat --network local create-fund-accounts
-      - name: Checkout Test Repository
-        uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
       - name: 'Run tests: web3.js SimpleCoin'
         if: always()
         env:
