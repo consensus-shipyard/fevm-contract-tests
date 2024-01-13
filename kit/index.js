@@ -45,18 +45,7 @@ function initNode(filAmount, blockTimeMs) {
 }
 
 function sendFil(accounts, amount) {
-  if (!process.argv.includes("itest")) {
     return;
-  }
-  accounts.forEach((acc) => {
-    res = request("POST", nodeManagerUrl + "/send", {
-      json: {
-        receiver: acc,
-        amount: amount,
-      },
-    });
-    console.log(JSON.parse(res.getBody()));
-  });
 }
 
 module.exports = {
