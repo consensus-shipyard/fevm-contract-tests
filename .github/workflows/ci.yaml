@@ -118,7 +118,7 @@ jobs:
           DEPLOYER_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT1_PRIVATE_KEY }}
         run: |
-          cd ./extern/fevm-uniswap-v3-core && npm install && npx hardhat --network local test || true
+          echo $USER_1_PRIVATE_KEY $DEPLOYER_PRIVATE_KEY ; cd ./extern/fevm-uniswap-v3-core && npm install && npx hardhat --network local test || true
       - name: 'Run tests: OpenZeppelin'
         if: always()
         timeout-minutes: 30
