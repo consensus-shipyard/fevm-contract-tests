@@ -15,8 +15,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: Checkout submodules
-        run: git submodule sync && git submodule update
+        with:
+          submodules: 'recursive'
       - name: Checkout Fendermint
         uses: actions/checkout@v2
         with:
