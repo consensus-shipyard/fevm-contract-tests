@@ -2,10 +2,10 @@ const request = require("sync-request");
 const { ethers } = require("ethers");
 
 // Setup testing environment
-const nodeManagerUrl = "http://localhost:8090";
+const defaultNodeUrl = "http://localhost:8545";
 
 function initNode(filAmount, blockTimeMs) {
-    return;
+    return defaultNodeUrl;
 }
 
 function sendFil(accounts, amount) {
