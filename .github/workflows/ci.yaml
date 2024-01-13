@@ -15,6 +15,7 @@ jobs:
     steps:
       - name: Checkout Test Repository
         uses: actions/checkout@v2
+        with:
           submodules: 'recursive'
       - name: Checkout Fendermint
         uses: actions/checkout@v2
