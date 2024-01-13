@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-      - mikers/submodules
+      - mikers/debug
   schedule:
     - cron: '0 0 * * *' # Run every day at midnight
   workflow_dispatch: # Enable manual running
