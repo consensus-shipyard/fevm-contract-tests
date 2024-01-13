@@ -13,8 +13,10 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout tests
+      - name: Checkout Repository
         uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
       - name: Checkout Fendermint
         uses: actions/checkout@v2
         with:
