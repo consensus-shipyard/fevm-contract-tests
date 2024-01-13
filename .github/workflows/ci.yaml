@@ -118,6 +118,7 @@ jobs:
         env:
           DEPLOYER_PRIVATE_KEY: ${{ env.ACCOUNT1_PRIVATE_KEY }}
           USER_1_PRIVATE_KEY: ${{ env.ACCOUNT1_PRIVATE_KEY }}
+          LOCAL_NODE_URL: 'http://localhost:8545'
         run: |
           echo $USER_1_PRIVATE_KEY $DEPLOYER_PRIVATE_KEY ; cd ./extern/fevm-uniswap-v3-core && npm install && npx hardhat --network local test || true
       - name: 'Run tests: OpenZeppelin'
