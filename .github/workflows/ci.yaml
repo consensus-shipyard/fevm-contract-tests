@@ -125,7 +125,7 @@ jobs:
         if: always()
         timeout-minutes: 30
         env:
-          ROOT_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
+          DEPLOYER_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT1_PRIVATE_KEY }}
         run: |
           cd ./extern/openzeppelin-contracts/ && yarn && npx hardhat --network local test
