@@ -77,7 +77,7 @@ jobs:
       - name: 'Create and fund accounts'
         id: accounts
         env:
-          NUM_ACCOUNTS: 4
+          NUM_ACCOUNTS: 1
           ROOT_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
         run: |
           npx hardhat --network local create-fund-accounts
