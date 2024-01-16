@@ -1,6 +1,6 @@
 [submodule "extern/fevm-uniswap-v3-core"]
   path = extern/fevm-uniswap-v3-core
-	url = git@github.com:snissn/fevm-uniswap-v3-core.git
+	url = git@github.com:snissn/uniswap-v3-core.git
 [submodule "extern/openzeppelin-contracts"]
   path = extern/openzeppelin-contracts
 	url = git@github.com:snissn/openzeppelin-contracts.git
