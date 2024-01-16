@@ -116,8 +116,8 @@ jobs:
         if: always()
         timeout-minutes: 30
         env:
-          DEPLOYER_PRIVATE_KEY: ${{ env.ACCOUNT1_PRIVATE_KEY }}
-          USER_1_PRIVATE_KEY: ${{ env.ACCOUNT1_PRIVATE_KEY }}
+          DEPLOYER_PRIVATE_KEY: ${{ steps.testnode.outputs.ACCOUNT1_PRIVATE_KEY }}
+          USER_1_PRIVATE_KEY: ${{ steps.testnode.outputs.ACCOUNT1_PRIVATE_KEY }}
           LOCAL_NODE_URL: 'http://127.0.0.1:8545'
         run: |
           echo $USER_1_PRIVATE_KEY $DEPLOYER_PRIVATE_KEY $LOCAL_NODE_URL ; cd ./extern/fevm-uniswap-v3-core && yarn && npx hardhat test --network local simple-test.js && npx hardhat --network local test
