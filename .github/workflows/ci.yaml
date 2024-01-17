@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - mikers/submodules
+      - mikers/submodulesFreshUniswap4
   schedule:
     - cron: '0 0 * * *' # Run every day at midnight
   workflow_dispatch: # Enable manual running
@@ -120,7 +121,7 @@ jobs:
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT1_PRIVATE_KEY }}
           LOCAL_NODE_URL: 'http://127.0.0.1:8545'
         run: |
-          echo $USER_1_PRIVATE_KEY $DEPLOYER_PRIVATE_KEY $LOCAL_NODE_URL ; cd ./extern/fevm-uniswap-v3-core && yarn install --frozen-lockfile && yarn compile && yarn test
+          echo $USER_1_PRIVATE_KEY $DEPLOYER_PRIVATE_KEY $LOCAL_NODE_URL ; cd ./extern/uniswap-v3-core && yarn install --frozen-lockfile && yarn compile && yarn test
       - name: 'Run tests: OpenZeppelin'
         if: always()
         timeout-minutes: 30
