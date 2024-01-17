@@ -5,3 +5,6 @@
   path = extern/openzeppelin-contracts
 	url = git@github.com:snissn/openzeppelin-contracts.git
   branch = ci
+[submodule "extern/uniswap-v3-core"]
+	path = extern/uniswap-v3-core
+	url = https://github.com/snissn/uniswap-v3-core.git
