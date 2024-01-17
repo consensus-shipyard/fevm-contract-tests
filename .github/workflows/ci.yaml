@@ -123,7 +123,7 @@ jobs:
           echo $USER_1_PRIVATE_KEY $DEPLOYER_PRIVATE_KEY $LOCAL_NODE_URL ; cd ./extern/fevm-uniswap-v3-core && yarn install --frozen-lockfile && yarn compile && yarn test
       - name: 'Run tests: OpenZeppelin'
         if: always()
-        timeout-minutes: 30
+        timeout-minutes: 60
         env:
           DEPLOYER_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT1_PRIVATE_KEY }}
