@@ -5,3 +5,6 @@
   path = extern/openzeppelin-contracts
   url = https://github.com/filecoin-project/openzeppelin-contracts
   branch = ci
+[submodule "extern/uniswap-v3-core"]
+	path = extern/uniswap-v3-core
+	url = https://github.com/snissn/uniswap-v3-core.git
