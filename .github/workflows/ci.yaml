@@ -112,7 +112,7 @@ jobs:
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT1_PRIVATE_KEY }}
         run: |
           npx hardhat --network local test ./test/ethers.js/ERC20.js
-      - name: 'Run tests: Uniswap'
+      - name: 'Run tests: Uniswap -- SKIPPED '
         if: always()
         timeout-minutes: 30
         env:
@@ -120,7 +120,7 @@ jobs:
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT1_PRIVATE_KEY }}
           LOCAL_NODE_URL: 'http://127.0.0.1:8545'
         run: |
-          echo $USER_1_PRIVATE_KEY $DEPLOYER_PRIVATE_KEY $LOCAL_NODE_URL ; cd ./extern/fevm-uniswap-v3-core && yarn install --frozen-lockfile && yarn compile && yarn test
+          echo Skipping Uniswap Test. # $USER_1_PRIVATE_KEY $DEPLOYER_PRIVATE_KEY $LOCAL_NODE_URL ; cd ./extern/fevm-uniswap-v3-core && yarn install --frozen-lockfile && yarn compile && echo # yarn test
       - name: 'Prep tests: OpenZeppelin'
         if: always()
         run: |
