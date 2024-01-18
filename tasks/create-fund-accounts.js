@@ -22,6 +22,8 @@ task("create-fund-accounts", "Create accounts and fund them with 100 coins each,
                 value: ethers.utils.parseEther("100"),
             });
             console.log(`Funded account ${account.address} with 100 coins (tx hash: ${tx.hash})`);
+            await new Promise(resolve => setTimeout(resolve, 1000)); // prevent http errors
+
         }
 
         console.log("All accounts have been funded");
