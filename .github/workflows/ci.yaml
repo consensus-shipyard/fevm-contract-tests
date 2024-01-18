@@ -26,7 +26,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 18.19.0
+          node-version: 16.15.0
           cache: 'npm'
       - name: Install dependencies
         run: npm install
@@ -119,7 +119,7 @@ jobs:
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT2_PRIVATE_KEY }}
           LOCAL_NODE_URL: 'http://127.0.0.1:8545'
         run: |
-          echo Skipping Uniswap Test. # $USER_1_PRIVATE_KEY $DEPLOYER_PRIVATE_KEY $LOCAL_NODE_URL ; cd ./extern/fevm-uniswap-v3-core && yarn install --frozen-lockfile && yarn compile && echo # yarn test
+          cd ./extern/fevm-uniswap-v3-core && yarn && npx hardhat  --network local test
       - name: 'Run tests: OpenZeppelin'
         if: always()
         env:
