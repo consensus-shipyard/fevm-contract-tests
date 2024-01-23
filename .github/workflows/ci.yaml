@@ -126,4 +126,4 @@ jobs:
           DEPLOYER_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT3_PRIVATE_KEY }}
         run: |
-          cd ./extern/openzeppelin-contracts/ && yarn && REPORT_GAS=true npx hardhat --network itest test --parallel
+          cd ./extern/openzeppelin-contracts/ && yarn && REPORT_GAS=true npx hardhat --network itest test
