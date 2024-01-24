@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - mikers/fevm-skip-pull
   schedule:
     - cron: '0 0 * * *' # Run every day at midnight
   workflow_dispatch: # Enable manual running
