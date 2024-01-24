@@ -64,12 +64,24 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Install Foundry
+        run: |
+          cd contracts
+          curl -L https://foundry.paradigm.xyz | bash
+          export PATH="$PATH:/home/runner/.config/.foundry/bin"
+          foundryup
+      - name: Create a docker build
+        id: docker-build
+        run: |
+          export PATH="$PATH:/home/runner/.config/.foundry/bin"
+          cd $GITHUB_WORKSPACE/ipc/fendermint
+          make docker-build
       - name: Run a testnode
         id: testnode
         run: |
           cd $GITHUB_WORKSPACE/ipc/
           export BALANCE=10000000000
-          { out=$(cargo make --makefile ./infra/fendermint/Makefile.toml testnode | tee /dev/fd/3); } 3>&1
+          { out=$(FM_PULL_SKIP=true cargo make --makefile ./infra/fendermint/Makefile.toml testnode | tee /dev/fd/3); } 3>&1
           private_key=$(echo $out | sed -e 's/\(.*\)\([a-f0-9]\{64\}\)/0x\2/' | grep 0x | head -c66)
           echo "ROOT_PRIVATE_KEY=$private_key" >> "$GITHUB_OUTPUT"
           cat $GITHUB_OUTPUT
