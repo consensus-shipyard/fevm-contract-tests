@@ -74,6 +74,7 @@ jobs:
       - name: Create a docker build
         id: docker-build
         run: |
+          export PATH="$PATH:/home/runner/.config/.foundry/bin"
           cd $GITHUB_WORKSPACE/ipc/fendermint
           make docker-build
       - name: Run a testnode
