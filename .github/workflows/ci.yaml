@@ -64,6 +64,13 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+       - name: Install Foundry
+           run: |
+             cd contracts
+             curl -L https://foundry.paradigm.xyz | bash
+             export PATH="$PATH:/home/runner/.config/.foundry/bin"
+             foundryup
+             forge install
       - name: Create a docker build
         id: docker-build
         run: |
