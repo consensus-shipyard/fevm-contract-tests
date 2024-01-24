@@ -64,6 +64,11 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Create a docker build
+        id: docker-build
+        run: |
+          cd $GITHUB_WORKSPACE/ipc/
+          make docker-build
       - name: Run a testnode
         id: testnode
         run: |
