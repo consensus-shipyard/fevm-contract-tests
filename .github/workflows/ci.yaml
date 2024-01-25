@@ -135,7 +135,9 @@ jobs:
       - name: 'Run tests: OpenZeppelin'
         if: always()
         env:
-          DEPLOYER_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
-          USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT3_PRIVATE_KEY }}
+          USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT1_PRIVATE_KEY }}
+          USER_2_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT2_PRIVATE_KEY }}
+          USER_3_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT3_PRIVATE_KEY }}
+          USER_4_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT4_PRIVATE_KEY }}
         run: |
           cd ./extern/openzeppelin-contracts/ && yarn && mkdir gasreport && npx hardhat --network itest test
