@@ -131,7 +131,7 @@ jobs:
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT2_PRIVATE_KEY }}
           LOCAL_NODE_URL: 'http://127.0.0.1:8545'
         run: |
-          cd ./extern/fevm-uniswap-v3-core && yarn install --frozen-lockfile && yarn compile &&  yarn test
+          cd ./extern/fevm-uniswap-v3-core && yarn install --frozen-lockfile && yarn compile &&  npx hardhat test test/UniswapV3Pool.spec.ts && yarn test
       - name: 'Run tests: OpenZeppelin'
         if: always()
         env:
