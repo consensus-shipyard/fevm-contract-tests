@@ -125,6 +125,7 @@ jobs:
           npx hardhat --network local test ./test/ethers.js/ERC20.js
       - name: 'Run tests: Uniswap'
         if: always()
+        timeout-minutes: 200
         env:
           DEPLOYER_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT2_PRIVATE_KEY }}
