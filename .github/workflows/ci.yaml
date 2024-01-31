@@ -88,7 +88,7 @@ jobs:
       - name: 'Create and fund accounts'
         id: accounts
         env:
-          NUM_ACCOUNTS: 4
+          NUM_ACCOUNTS: 5
           ROOT_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
         run: |
           npx hardhat --network local create-fund-accounts
@@ -139,5 +139,6 @@ jobs:
           USER_2_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT2_PRIVATE_KEY }}
           USER_3_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT3_PRIVATE_KEY }}
           USER_4_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT4_PRIVATE_KEY }}
+          USER_5_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT5_PRIVATE_KEY }}
         run: |
           cd ./extern/openzeppelin-contracts/ && yarn && mkdir gasreport && npx hardhat --network itest test
