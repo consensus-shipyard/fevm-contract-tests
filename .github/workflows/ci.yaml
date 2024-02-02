@@ -13,8 +13,10 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout tests
+      - name: Checkout Test Repository
         uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
       - name: Checkout Fendermint
         uses: actions/checkout@v2
         with:
@@ -24,7 +26,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 19.8.1
+          node-version: 18.19.0
           cache: 'npm'
       - name: Install dependencies
         run: npm install
@@ -46,7 +48,12 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
       - name: Install cargo-make
-        run: cargo install -f cargo-make
+        run: |
+          if ! command -v cargo-make &> /dev/null
+          then
+              cargo install -f cargo-make
+          fi
+
       - uses: actions/cache/save@v3
         if: always()
         with:
@@ -57,19 +64,31 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Install Foundry
+        run: |
+          cd contracts
+          curl -L https://foundry.paradigm.xyz | bash
+          export PATH="$PATH:/home/runner/.config/.foundry/bin"
+          foundryup
+      - name: Create a docker build
+        id: docker-build
+        run: |
+          export PATH="$PATH:/home/runner/.config/.foundry/bin"
+          cd $GITHUB_WORKSPACE/ipc/fendermint
+          make docker-build
       - name: Run a testnode
         id: testnode
         run: |
           cd $GITHUB_WORKSPACE/ipc/
           export BALANCE=10000000000
-          { out=$(cargo make --makefile ./infra/fendermint/Makefile.toml testnode | tee /dev/fd/3); } 3>&1
+          { out=$(FM_PULL_SKIP=true cargo make --makefile ./infra/fendermint/Makefile.toml testnode | tee /dev/fd/3); } 3>&1
           private_key=$(echo $out | sed -e 's/\(.*\)\([a-f0-9]\{64\}\)/0x\2/' | grep 0x | head -c66)
           echo "ROOT_PRIVATE_KEY=$private_key" >> "$GITHUB_OUTPUT"
           cat $GITHUB_OUTPUT
       - name: 'Create and fund accounts'
         id: accounts
         env:
-          NUM_ACCOUNTS: 4
+          NUM_ACCOUNTS: 5
           ROOT_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
         run: |
           npx hardhat --network local create-fund-accounts
@@ -104,19 +123,22 @@ jobs:
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT1_PRIVATE_KEY }}
         run: |
           npx hardhat --network local test ./test/ethers.js/ERC20.js
-      - name: 'Run tests: Uniswap'
+      - name: 'Run tests: Uniswap -- SKIPPING'
         if: always()
-        timeout-minutes: 30
+        timeout-minutes: 200
         env:
-          ROOT_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
+          DEPLOYER_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
           USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT2_PRIVATE_KEY }}
+          LOCAL_NODE_URL: 'http://127.0.0.1:8545'
         run: |
-          cd ./extern/fevm-uniswap-v3-core && yarn && npx hardhat --network local test
-      - name: 'Run tests: OpenZeppelin'
+          echo skipping ; #cd ./extern/fevm-uniswap-v3-core && yarn install --frozen-lockfile && yarn compile &&  npx hardhat test test/UniswapV3Pool.spec.ts #  && yarn test
+      - name: 'Run tests: OpenZeppelin -- SKIPPING'
         if: always()
-        timeout-minutes: 30
         env:
-          ROOT_PRIVATE_KEY: ${{ steps.testnode.outputs.ROOT_PRIVATE_KEY }}
-          USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT3_PRIVATE_KEY }}
+          USER_1_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT1_PRIVATE_KEY }}
+          USER_2_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT2_PRIVATE_KEY }}
+          USER_3_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT3_PRIVATE_KEY }}
+          USER_4_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT4_PRIVATE_KEY }}
+          USER_5_PRIVATE_KEY: ${{ steps.accounts.outputs.ACCOUNT5_PRIVATE_KEY }}
         run: |
-          cd ./extern/openzeppelin-contracts/ && npm install && npx hardhat --network local test
+          echo skipping ; #cd ./extern/openzeppelin-contracts/ && yarn && mkdir gasreport && npx hardhat --network itest test

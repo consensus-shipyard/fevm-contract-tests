@@ -18,6 +18,7 @@ describe('SimpleCoin', function () {
 
     deployerAddr = await getDeployerAddress()
   })
+  // FIXME: this doesn't work now
   xit("Should access transaction details before it has been mined", async function () {
     const txByHash = await web3.eth.getTransaction(deploymentTxHash);
 
